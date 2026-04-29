@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_21_234927) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_28_233313) do
+  create_table "classrooms", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.integer "school_id", null: false
+    t.string "teacher"
+    t.datetime "updated_at", null: false
+    t.string "uuid", null: false
+    t.index ["school_id"], name: "index_classrooms_on_school_id"
+    t.index ["uuid"], name: "index_classrooms_on_uuid", unique: true
+  end
+
   create_table "schools", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
@@ -27,6 +38,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_234927) do
   end
 
   create_table "students", force: :cascade do |t|
+    t.integer "classroom_id", null: false
     t.datetime "created_at", null: false
     t.string "email"
     t.string "first_name", null: false
@@ -35,6 +47,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_234927) do
     t.string "last_name", null: false
     t.integer "school_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["classroom_id"], name: "index_students_on_classroom_id"
     t.index ["school_id"], name: "index_students_on_school_id"
   end
 
@@ -47,6 +60,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_234927) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "classrooms", "schools"
   add_foreign_key "sessions", "users"
+  add_foreign_key "students", "classrooms"
   add_foreign_key "students", "schools"
 end

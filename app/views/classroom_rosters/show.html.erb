@@ -1,0 +1,14 @@
+<header class="flex items-center justify-between mb-8">
+  <h1 class="text-4xl"><%= @classroom.name %></h1>
+</header>
+<ul class="list bg-base-100 rounded-box shadow-md">
+  <% @classroom.students.sort_by(&:full_name).each do |student| %>
+      <%= link_to "#" do %>
+      <li class="list-row link link-hover">
+        <span class="text-2xl">
+          <%= student.full_name %>
+        </span>
+      </li>
+      <% end %>
+  <% end %>
+</ul>

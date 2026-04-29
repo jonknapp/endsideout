@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
+  get "classroom_rosters/show"
   resource :session
   resources :passwords, param: :token
+  resources :classroom_rosters, only: %i[show], param: :uuid
   scope :admin do
     resources :schools do
       resources :students, shallow: true
+      resources :classrooms, shallow: true, only: %i[edit update]
     end
   end
   root to: "schools#index"

@@ -19,7 +19,7 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create student" do
     assert_difference("Student.count") do
-      post school_students_url(@school), params: { student: { email: @student.email, first_name: @student.first_name, gender: @student.gender, grade_level: @student.grade_level, last_name: @student.last_name, school_id: @student.school_id } }
+      post school_students_url(@school), params: { student: { email: @student.email, first_name: @student.first_name, gender: @student.gender, grade_level: @student.grade_level, last_name: @student.last_name, classroom_id: @student.classroom_id } }
     end
 
     assert_redirected_to student_url(Student.last)
@@ -38,6 +38,15 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
   test "should update student" do
     patch student_url(@student), params: { student: { email: @student.email, first_name: @student.first_name, gender: @student.gender, grade_level: @student.grade_level, last_name: @student.last_name, school_id: @student.school_id } }
     assert_redirected_to student_url(@student)
+  end
+
+  test "can update a student's classroom" do
+    classroom = @student.classroom.dup
+    classroom.update! uuid: SecureRandom.urlsafe_base64(32), name: "New Classroom"
+    assert_changes -> { @student.reload.classroom_id } do
+      patch student_url(@student), params: { student: { classroom_id: classroom.id } }
+      assert_redirected_to student_url(@student)
+    end
   end
 
   test "should destroy student" do

@@ -4,7 +4,7 @@ class StudentsController < ApplicationController
 
   # GET /students or /students.json
   def index
-    @students = @school.students.all
+    @students = @school.students.includes(:classroom).all
   end
 
   # GET /students/1 or /students/1.json
@@ -18,6 +18,7 @@ class StudentsController < ApplicationController
 
   # GET /students/1/edit
   def edit
+    @classrooms = @student.school.classrooms.all
   end
 
   # POST /students or /students.json
@@ -70,6 +71,6 @@ class StudentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def student_params
-      params.expect(student: [ :first_name, :last_name, :email, :grade_level, :gender ])
+      params.expect(student: [ :first_name, :last_name, :email, :grade_level, :gender, :classroom_id ])
     end
 end

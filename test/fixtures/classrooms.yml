@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Classroom 1
+  school: one
+  teacher: Teacher 1
+  uuid: abcd-1234-efgh-5678
+
+two:
+  name: Classroom 2
+  school: two
+  teacher:
+  uuid: wxyz-9876-ijkl-5432

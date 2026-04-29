@@ -5,6 +5,7 @@ ada:
   grade_level: 5
   gender:
   school: one
+  classroom: one
 
 grace:
   first_name: Grace
@@ -13,3 +14,4 @@ grace:
   grade_level: 6
   gender: female
   school: two
+  classroom: two

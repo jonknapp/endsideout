@@ -25,6 +25,9 @@ end
 # randomly sample 3 grade levels and create 10 students for each grade level
 grades = (1..12).to_a.sample(3)
 grades.each do |grade|
-  students = 10.times.map { build_student_attrs(grade_level: grade) }
+  classrooms = 2.times.map do |i|
+    school.classrooms.create!(name: "Classroom #{ i + 1 }", teacher: maybe { Faker::Name.name }, uuid: SecureRandom.urlsafe_base64(32))
+  end
+  students = 10.times.map { |i| build_student_attrs(grade_level: grade, classroom_id: classrooms[i % 2].id) }
   school.students.create!(students)
 end

@@ -27,6 +27,8 @@
     <%= form.label :gender, class: "label" %>
     <%= form.text_field :gender, class: "input w-full" %>
 
+    <%= form.collection_select :classroom_id, classrooms, :id, :name, { include_blank: "Select a classroom" }, class: "select w-full" %>
+
     <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>

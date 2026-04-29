@@ -1,0 +1,26 @@
+<%= form_with(model: classroom) do |form| %>
+  <div class="flex flex-col gap-2">
+  <% if classroom.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(classroom.errors.count, "error") %> prohibited this classroom from being saved:</h2>
+
+      <ul>
+        <% classroom.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <%= form.label :name, class: "label" %>
+    <%= form.text_field :name, class: "input w-full" %>
+
+    <%= form.label :teacher, class: "label" %>
+    <%= form.text_field :teacher, class: "input w-full" %>
+
+    <%= form.label :Link, class: "label" %>
+    <%= link_to classroom_roster_url(classroom.uuid), classroom_roster_path(classroom.uuid), class: 'link' %>
+
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

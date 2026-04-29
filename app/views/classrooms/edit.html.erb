@@ -1,16 +1,16 @@
-<% content_for :title, "Editing student" %>
+<% content_for :title, "Editing classroom" %>
 <nav class="breadcrumbs text-sm">
   <ul>
     <li><%= link_to "All Schools", schools_path %></li>
-    <li><%= link_to @student.school.name, school_students_path(@student.school) %></li>
-    <li>Edit Student</li>
+    <li><%= link_to @classroom.school.name, school_path(@classroom.school) %></li>
+    <li>Edit Classroom</li>
   </ul>
 </nav>
 <section class="py-10 flex items-center justify-center">
   <div class="card card-border bg-base-100 shadow-md w-96">
     <div class="card-body">
-      <h1 class="card-title">Editing Student</h1>
-      <%= render "form", student: @student, classrooms: @classrooms %>
+      <h1 class="card-title">Editing Classroom</h1>
+      <%= render "form", classroom: @classroom %>
     </div>
   </div>
 </section>
