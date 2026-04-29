@@ -1,0 +1,16 @@
+<% content_for :title, "Editing student" %>
+<nav class="breadcrumbs text-sm">
+  <ul>
+    <li><%= link_to "All Schools", schools_path %></li>
+    <li><%= link_to @student.school.name, school_students_path(@student.school) %></li>
+    <li>Edit Student</li>
+  </ul>
+</nav>
+<section class="py-10 flex items-center justify-center">
+  <div class="card card-border bg-base-100 shadow-md w-96">
+    <div class="card-body">
+      <h1 class="card-title">Editing Student</h1>
+      <%= render "form", student: @student %>
+    </div>
+  </div>
+</section>

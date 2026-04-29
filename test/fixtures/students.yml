@@ -1,0 +1,15 @@
+ada:
+  first_name: Ada
+  last_name: Lovelace
+  email:
+  grade_level: 5
+  gender:
+  school: one
+
+grace:
+  first_name: Grace
+  last_name: Hopper
+  email: ghopper@example.com
+  grade_level: 6
+  gender: female
+  school: two

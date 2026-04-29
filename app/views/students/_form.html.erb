@@ -1,0 +1,32 @@
+<%= form_with(model: [@school, student]) do |form| %>
+  <div class="flex flex-col gap-2">
+  <% if student.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(student.errors.count, "error") %> prohibited this student from being saved:</h2>
+
+      <ul>
+        <% student.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <%= form.label :first_name, class: "label" %>
+    <%= form.text_field :first_name, class: "input w-full" %>
+
+    <%= form.label :last_name, class: "label" %>
+    <%= form.text_field :last_name, class: "input w-full" %>
+
+    <%= form.label :email, class: "label" %>
+    <%= form.text_field :email, class: "input w-full" %>
+
+    <%= form.label :grade_level, class: "label" %>
+    <%= form.number_field :grade_level, class: "input w-full" %>
+
+    <%= form.label :gender, class: "label" %>
+    <%= form.text_field :gender, class: "input w-full" %>
+
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

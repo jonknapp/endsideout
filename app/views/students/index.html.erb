@@ -1,0 +1,45 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, [ @school.name, "Students" ].join(" - ") %>
+
+<nav class="breadcrumbs text-sm">
+  <ul>
+    <li><%= link_to "All Schools", schools_path %></li>
+    <li><%= @school.name %></li>
+  </ul>
+</nav>
+
+<header class="flex items-center justify-between mb-4">
+  <h1 class="text-2xl">Students for <%= @school.name %></h1>
+  <%= link_to "New student", new_school_student_path(@school), class: "btn btn-primary" %>
+</header>
+<div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+<table id="students" class="table">
+
+  <thead>
+  <tr>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Email</th>
+    <th>Grade level</th>
+    <th>Gender</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @students.each do |student| %>
+    <tr>
+      <td><%= student.first_name %></td>
+      <td><%= student.last_name %></td>
+      <td><%= student.email %></td>
+      <td><%= student.grade_level %></td>
+      <td><%= student.gender %></td>
+      <td>
+        <div class="flex gap-2">
+          <%= link_to "Edit", edit_student_path(student), class: "btn btn-primary" %>
+          <%= button_to "Delete", student, method: :delete, data: { 'turbo-confirm': "Are you sure?" }, class: "btn btn-error" %>
+        </div>
+  <% end %>
+  </tbody>
+</table>
+</div>

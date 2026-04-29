@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@source not "./daisyui{,*}.mjs";
+
+@plugin "./daisyui.mjs" {
+    themes: light --default;
+}
+
+@plugin "./daisyui-theme.mjs" {
+    name: "light";
+    default: true;
+    prefersdark: false;
+    color-scheme: light;
+    --color-primary: rgb(113, 190, 183);
+    --color-primary-content: white;
+    --color-secondary: #B5E56D;
+}

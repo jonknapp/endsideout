@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, @school.name %>
+<h1><%= @school.name %></h1>
+
+<div>
+  <%= link_to "Edit this school", edit_school_path(@school) %> |
+  <%= link_to "Back to schools", schools_path %>
+
+  <%= button_to "Destroy this school", @school, method: :delete %>
+</div>

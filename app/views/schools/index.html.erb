@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Schools" %>
+
+<header class="flex justify-between items-center mb-10">
+  <h1 class="text-2xl">Schools</h1>
+  <%= link_to "New school", new_school_path, class: "btn btn-primary" %>
+</header>
+  <ul id="schools" class="list bg-base-100 rounded-box shadow-md">
+    <% @schools.each do |school| %>
+      <li class="list-row">
+        <%= link_to school.name, school_students_path(school), class: "link" %>
+      </li>
+    <% end %>
+  </ul>

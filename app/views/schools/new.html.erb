@@ -1,0 +1,16 @@
+<% content_for :title, "New school" %>
+
+<nav class="breadcrumbs text-sm">
+  <ul>
+    <li><%= link_to "All Schools", schools_path %></li>
+    <li>New School</li>
+  </ul>
+</nav>
+<section class="py-10 flex items-center justify-center">
+  <div class="card card-border bg-base-100 shadow-md w-96">
+    <div class="card-body">
+      <h1 class="card-title">New School</h1>
+      <%= render "form", school: @school %>
+    </div>
+  </div>
+</section>
