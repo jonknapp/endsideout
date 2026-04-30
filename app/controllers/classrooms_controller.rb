@@ -1,4 +1,4 @@
-class ClassroomsController < ApplicationController
+class ClassroomsController < AdminController
   before_action :set_classroom, only: %i[ edit update ]
 
   # GET /classrooms/1/edit

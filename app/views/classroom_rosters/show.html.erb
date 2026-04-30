@@ -3,12 +3,14 @@
 </header>
 <ul class="list bg-base-100 rounded-box shadow-md">
   <% @classroom.students.sort_by(&:full_name).each do |student| %>
-      <%= link_to "#" do %>
-      <li class="list-row link link-hover">
-        <span class="text-2xl">
+    <li class="list-row link link-hover text-2xl">
+      <%= form_with(url: student_session_path) do |form| %>
+        <%= form.hidden_field :student_id, value: student.id %>
+        <%= form.hidden_field :classroom_uuid, value: @classroom.uuid %>
+        <%= form.button type: :submit, class: "w-full cursor-pointer" do %>
           <%= student.full_name %>
-        </span>
-      </li>
+        <% end %>
       <% end %>
+    </li>
   <% end %>
 </ul>

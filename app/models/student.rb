@@ -1,6 +1,7 @@
 class Student < ApplicationRecord
   belongs_to :school
   belongs_to :classroom
+  has_many :sessions, class_name: "StudentSession", dependent: :destroy
 
   enum :gender, %i[male female other].index_by(&:itself)
 

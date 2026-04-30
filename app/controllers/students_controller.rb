@@ -1,4 +1,4 @@
-class StudentsController < ApplicationController
+class StudentsController < AdminController
   before_action :set_school, only: %i[ index new create ]
   before_action :set_student, only: %i[ show edit update destroy ]
 

@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  get "classroom_rosters/show"
   resource :session
   resources :passwords, param: :token
+  resource :student_session, only: %i[new create destroy]
+  resources :student_homes, only: %i[index]
   resources :classroom_rosters, only: %i[show], param: :uuid
   scope :admin do
     resources :schools do
