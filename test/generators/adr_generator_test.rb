@@ -6,7 +6,11 @@ require "generators/adr/adr_generator"
 class ADRGeneratorTest < Rails::Generators::TestCase
   tests AdrGenerator
   destination Rails.root.join("tmp/generator_tests")
-  setup :prepare_destination
+
+  setup do
+    self.destination_root = Rails.root.join("tmp", "generator_tests_#{Process.pid}")
+    prepare_destination
+  end
 
   test "creates adr file with sequential number" do
     run_generator [ "use_postgres_as_primary_database" ]
