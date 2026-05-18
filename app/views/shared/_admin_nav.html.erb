@@ -1,0 +1,20 @@
+<nav class="navbar bg-base-200 border-b border-base-300 mb-6 px-4">
+  <div class="navbar-start">
+    <span class="font-semibold text-lg">Endsideout Admin</span>
+  </div>
+  <% if Current.user %>
+    <div class="navbar-end">
+      <ul class="menu menu-horizontal gap-1 p-0">
+        <li>
+          <%= link_to "Schools", schools_path,
+                      class: "#{controller_path.start_with?("schools", "students", "classrooms") ? "active" : ""}" %>
+        </li>
+        <li>
+          <%= link_to "Content Modules", content_modules_path,
+                      class: "#{controller_path.start_with?("content_modules", "links") ? "active" : ""}" %>
+        </li>
+      </ul>
+      <%= button_to "Log out", session_path, method: :delete, class: "btn btn-sm btn-ghost ml-2" %>
+    </div>
+  <% end %>
+</nav>

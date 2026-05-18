@@ -1,11 +1,48 @@
-<section class="py-10 flex items-center justify-center">
-  <div class="card card-border bg-base-100 shadow-md w-96">
-    <div class="card-body">
-      <h1 class="card-title">Welcome to EndsideOut!</h1>
-      <p>You are logged in as <strong><%= @student.full_name %></strong></p>
-      <div class="card-actions justify-end">
-        <%= button_to "Logout", student_session_path, method: :delete, class: "btn btn-primary" %>
-      </div>
+<% content_for :title, "Home" %>
+
+<section class="py-10">
+  <header class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl">Welcome, <%= @student.first_name %>!</h1>
+    <%= button_to "Logout", student_session_path, method: :delete, class: "btn btn-sm btn-ghost" %>
+  </header>
+
+  <% if @classroom_programs.size > 1 %>
+    <div role="tablist" class="tabs tabs-border mb-6">
+      <% @classroom_programs.each do |enrollment| %>
+        <%= link_to student_homes_path(classroom_program_id: enrollment.id),
+              role: "tab",
+              aria: { selected: enrollment == @active_program },
+              class: "tab #{"tab-active" if enrollment == @active_program}" do %>
+          <%= enrollment.program.name %>
+        <% end %>
+      <% end %>
     </div>
-  </div>
+  <% end %>
+
+  <% sorted = @published_modules.sort_by { |m| m.content_module.position.to_i }
+     latest_date = sorted.map(&:publish_on).max %>
+  <% if sorted.any? %>
+    <% sorted.each do |classroom_module| %>
+      <details class="collapse collapse-arrow bg-base-100 border border-base-300 mb-2"
+               <%= "open" if classroom_module.publish_on == latest_date %>>
+        <summary class="collapse-title font-semibold">
+          <%= classroom_module.content_module.name %>
+        </summary>
+        <div class="collapse-content">
+          <ul class="flex flex-col gap-2 pt-2">
+            <% classroom_module.content_module.links.each do |link| %>
+              <li>
+                <a href="<%= safe_external_url(link.url) %>" target="_blank" rel="noopener noreferrer"
+                   class="link inline-flex items-center gap-1">
+                  <%= link.title %> ↗
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </details>
+    <% end %>
+  <% else %>
+    <p class="text-sm opacity-60">No modules published yet.</p>
+  <% end %>
 </section>

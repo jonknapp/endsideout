@@ -6,11 +6,22 @@
     <li>Edit Classroom</li>
   </ul>
 </nav>
-<section class="py-10 flex items-center justify-center">
-  <div class="card card-border bg-base-100 shadow-md w-96">
-    <div class="card-body">
-      <h1 class="card-title">Editing Classroom</h1>
-      <%= render "form", classroom: @classroom %>
+<section class="py-10 flex justify-center">
+  <div class="flex flex-col gap-6 w-full max-w-lg">
+    <div class="card card-border bg-base-100 shadow-md">
+      <div class="card-body">
+        <h1 class="card-title">Editing Classroom</h1>
+        <%= render "form", classroom: @classroom %>
+      </div>
+    </div>
+
+    <div class="card card-border bg-base-100 shadow-md">
+      <div class="card-body">
+        <div class="flex justify-between items-center">
+          <h2 class="card-title text-lg">Module Schedule</h2>
+          <%= link_to "Manage Schedule", schedule_classroom_path(@classroom), class: "btn btn-sm btn-primary" %>
+        </div>
+      </div>
     </div>
   </div>
 </section>

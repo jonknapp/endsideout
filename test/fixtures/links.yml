@@ -1,0 +1,13 @@
+survey_one:
+  content_module: intro
+  title: Health Survey
+  url: https://example.com/survey/1
+  link_type: survey
+  position: 1
+
+game_one:
+  content_module: intro
+  title: Health Game
+  url: https://example.com/game/1
+  link_type: game
+  position: 2

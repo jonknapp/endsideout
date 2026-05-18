@@ -1,0 +1,17 @@
+<% content_for :title, "New Link" %>
+
+<nav class="breadcrumbs text-sm">
+  <ul>
+    <li><%= link_to "Content Modules", content_modules_path %></li>
+    <li><%= link_to @content_module.name, edit_content_module_path(@content_module) %></li>
+    <li>New Link</li>
+  </ul>
+</nav>
+<section class="py-10 flex items-center justify-center">
+  <div class="card card-border bg-base-100 shadow-md w-96">
+    <div class="card-body">
+      <h1 class="card-title">New Link</h1>
+      <%= render "form", link: @link %>
+    </div>
+  </div>
+</section>

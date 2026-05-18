@@ -18,6 +18,30 @@
     <%= form.label :teacher, class: "label" %>
     <%= form.text_field :teacher, class: "input w-full" %>
 
+    <div class="flex flex-col gap-1">
+      <span class="label">Programs</span>
+      <%= form.fields_for :classroom_programs do |cp_form| %>
+        <% enrolled = cp_form.object.persisted? %>
+        <div class="flex items-center gap-3" data-controller="program-enrollment">
+          <%= cp_form.hidden_field :program_id %>
+          <%= cp_form.hidden_field :_destroy, value: enrolled ? "0" : "1", data: { program_enrollment_target: "destroy" } %>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" class="checkbox checkbox-primary"
+                   <%= "checked" if enrolled %>
+                   autocomplete="off"
+                   data-action="change->program-enrollment#toggle">
+            <span class="label"><%= cp_form.object.program.name %></span>
+          </label>
+          <div data-program-enrollment-target="levelSection" <%= "style='display:none'" unless enrolled %>>
+            <%= cp_form.select :level,
+                  ClassroomProgram.levels.keys.map { |l| [l.humanize, l] },
+                  { include_blank: "Select level", selected: cp_form.object.level },
+                  class: "select select-bordered select-sm" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
     <%= form.label :Link, class: "label" %>
     <%= link_to classroom_roster_url(classroom.uuid), classroom_roster_path(classroom.uuid), class: 'link' %>
 

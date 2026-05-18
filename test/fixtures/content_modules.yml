@@ -1,0 +1,17 @@
+intro:
+  program: kyh
+  level: basic
+  name: Introduction to Health
+  position: 1
+
+moderate_wellness:
+  program: 3dw
+  level: moderate
+  name: Moderate Wellness
+  position: 1
+
+advanced_wellness:
+  program: 3dw
+  level: advanced
+  name: Advanced Wellness
+  position: 1

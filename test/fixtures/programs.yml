@@ -1,0 +1,7 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+kyh:
+  name: Know Your Health
+
+3dw:
+  name: 3D Wellness

@@ -1,0 +1,53 @@
+<% content_for :title, "Schedule — #{@classroom.name}" %>
+
+<nav class="breadcrumbs text-sm">
+  <ul>
+    <li><%= link_to "All Schools", schools_path %></li>
+    <li><%= link_to @classroom.school.name, school_students_path(@classroom.school) %></li>
+    <li><%= link_to "Edit Classroom", edit_classroom_path(@classroom) %></li>
+    <li>Schedule</li>
+  </ul>
+</nav>
+
+<header class="flex justify-between items-center mb-4">
+  <h1 class="text-2xl">Schedule: <%= @classroom.name %></h1>
+</header>
+
+<% if @classroom_programs.any? %>
+  <div role="tablist" class="tabs tabs-border mb-6">
+    <% @classroom_programs.each do |enrollment| %>
+      <%= link_to schedule_classroom_path(@classroom, classroom_program_id: enrollment.id),
+            role: "tab",
+            aria: { selected: enrollment == @active_enrollment },
+            class: "tab #{"tab-active" if enrollment == @active_enrollment}" do %>
+        <%= enrollment.program.name %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if @active_enrollment %>
+    <% modules = @active_enrollment.classroom_modules.sort_by { |m| m.content_module.position.to_i } %>
+    <% if modules.any? %>
+      <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Publish Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% modules.each do |classroom_module| %>
+              <%= render "classroom_modules/row", classroom_module: classroom_module %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-sm opacity-60">No modules for this enrollment yet.</p>
+    <% end %>
+  <% end %>
+<% else %>
+  <p class="text-sm opacity-60">No program enrollments yet. <%= link_to "Edit the classroom", edit_classroom_path(@classroom), class: "link" %> to add programs.</p>
+<% end %>

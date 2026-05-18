@@ -1,0 +1,30 @@
+<%= form_with(model: content_module) do |form| %>
+  <div class="flex flex-col gap-2">
+    <% if content_module.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(content_module.errors.count, "error") %> prohibited this module from being saved:</h2>
+        <ul>
+          <% content_module.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.label :name, class: "label" %>
+    <%= form.text_field :name, class: "input w-full" %>
+
+    <%= form.label :program_id, "Program", class: "label" %>
+    <%= form.collection_select :program_id, Program.order(:name), :id, :name,
+          { include_blank: "Select a program" }, class: "select w-full" %>
+
+    <%= form.label :level, class: "label" %>
+    <%= form.select :level, ContentModule.levels.keys.map { |l| [ l.humanize, l ] },
+          { include_blank: "Select a level" }, class: "select w-full" %>
+
+    <%= form.label :position, class: "label" %>
+    <%= form.number_field :position, class: "input w-full" %>
+
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

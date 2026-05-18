@@ -1,0 +1,56 @@
+<% content_for :title, "Edit Module" %>
+
+<nav class="breadcrumbs text-sm">
+  <ul>
+    <li><%= link_to "Content Modules", content_modules_path %></li>
+    <li>Edit Module</li>
+  </ul>
+</nav>
+<section class="py-10 flex justify-center">
+  <div class="flex flex-col gap-6 w-full max-w-lg">
+    <div class="card card-border bg-base-100 shadow-md">
+      <div class="card-body">
+        <h1 class="card-title">Edit Module</h1>
+        <%= render "form", content_module: @content_module %>
+      </div>
+    </div>
+
+    <div class="card card-border bg-base-100 shadow-md">
+      <div class="card-body">
+        <div class="flex justify-between items-center mb-2">
+          <h2 class="card-title text-lg">Links</h2>
+          <%= link_to "Add link", new_content_module_link_path(@content_module), class: "btn btn-sm btn-primary" %>
+        </div>
+        <% if @content_module.links.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @content_module.links.each do |link| %>
+                <tr>
+                  <td><a href="<%= safe_external_url(link.url) %>" target="_blank" class="link inline-flex items-center gap-1"><%= link.title %> ↗</a></td>
+                  <td><%= link.link_type.humanize %></td>
+                  <td>
+                    <div class="flex gap-2">
+                      <%= link_to "Edit", edit_link_path(link), class: "btn btn-xs btn-primary" %>
+                      <%= button_to "Delete", link_path(link), method: :delete,
+                            data: { "turbo-confirm": "Delete this link?" },
+                            class: "btn btn-xs btn-error" %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p class="text-sm opacity-60">No links yet.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

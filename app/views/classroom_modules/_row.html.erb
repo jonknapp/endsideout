@@ -1,0 +1,24 @@
+<tr id="<%= dom_id(classroom_module) %>">
+  <td><%= classroom_module.content_module.name %></td>
+  <td>
+    <%= form_with model: classroom_module, url: classroom_module_path(classroom_module),
+          data: { controller: "publish-now" } do |form| %>
+      <div class="flex items-center gap-2">
+        <%= form.date_field :publish_on, value: classroom_module.publish_on, class: "input input-sm",
+              data: { publish_now_target: "date" } %>
+        <%= form.submit "Save", class: "btn btn-xs btn-primary" %>
+        <button type="button" class="btn btn-xs btn-ghost"
+                data-action="publish-now#setToday">Publish Now</button>
+      </div>
+    <% end %>
+  </td>
+  <td>
+    <% if classroom_module.publish_on.nil? %>
+      <span class="badge badge-ghost">Unscheduled</span>
+    <% elsif classroom_module.publish_on > Date.current %>
+      <span class="badge badge-warning">Scheduled</span>
+    <% else %>
+      <span class="badge badge-success">Published</span>
+    <% end %>
+  </td>
+</tr>

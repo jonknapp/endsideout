@@ -7,8 +7,14 @@ Rails.application.routes.draw do
   scope :admin do
     resources :schools do
       resources :students, shallow: true
-      resources :classrooms, shallow: true, only: %i[edit update]
+      resources :classrooms, shallow: true, only: %i[edit update] do
+        member { get :schedule }
+      end
     end
+    resources :content_modules do
+      resources :links, shallow: true
+    end
+    resources :classroom_modules, only: %i[update]
   end
   root to: "schools#index"
 

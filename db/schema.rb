@@ -10,7 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_29_230254) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_17_183252) do
+  create_table "classroom_modules", force: :cascade do |t|
+    t.integer "classroom_program_id", null: false
+    t.integer "content_module_id", null: false
+    t.datetime "created_at", null: false
+    t.date "publish_on"
+    t.datetime "updated_at", null: false
+    t.index ["classroom_program_id", "content_module_id"], name: "index_classroom_modules_on_classroom_program_and_content_module", unique: true
+    t.index ["classroom_program_id"], name: "index_classroom_modules_on_classroom_program_id"
+    t.index ["content_module_id"], name: "index_classroom_modules_on_content_module_id"
+  end
+
+  create_table "classroom_programs", force: :cascade do |t|
+    t.integer "classroom_id", null: false
+    t.datetime "created_at", null: false
+    t.string "level", null: false
+    t.integer "program_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["classroom_id", "program_id"], name: "index_classroom_programs_on_classroom_id_and_program_id", unique: true
+    t.index ["classroom_id"], name: "index_classroom_programs_on_classroom_id"
+    t.index ["program_id"], name: "index_classroom_programs_on_program_id"
+  end
+
   create_table "classrooms", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
@@ -20,6 +42,33 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_230254) do
     t.string "uuid", null: false
     t.index ["school_id"], name: "index_classrooms_on_school_id"
     t.index ["uuid"], name: "index_classrooms_on_uuid", unique: true
+  end
+
+  create_table "content_modules", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "level", null: false
+    t.string "name", null: false
+    t.integer "position"
+    t.integer "program_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["program_id"], name: "index_content_modules_on_program_id"
+  end
+
+  create_table "links", force: :cascade do |t|
+    t.integer "content_module_id", null: false
+    t.datetime "created_at", null: false
+    t.string "link_type", null: false
+    t.integer "position"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.string "url", null: false
+    t.index ["content_module_id"], name: "index_links_on_content_module_id"
+  end
+
+  create_table "programs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
   end
 
   create_table "schools", force: :cascade do |t|
@@ -67,7 +116,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_230254) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "classroom_modules", "classroom_programs"
+  add_foreign_key "classroom_modules", "content_modules"
+  add_foreign_key "classroom_programs", "classrooms"
+  add_foreign_key "classroom_programs", "programs"
   add_foreign_key "classrooms", "schools"
+  add_foreign_key "content_modules", "programs"
+  add_foreign_key "links", "content_modules"
   add_foreign_key "sessions", "users"
   add_foreign_key "student_sessions", "students"
   add_foreign_key "students", "classrooms"

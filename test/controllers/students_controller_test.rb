@@ -41,8 +41,7 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "can update a student's classroom" do
-    classroom = @student.classroom.dup
-    classroom.update! uuid: SecureRandom.urlsafe_base64(32), name: "New Classroom"
+    classroom = @school.classrooms.create!(name: "New Classroom", uuid: SecureRandom.urlsafe_base64(32))
     assert_changes -> { @student.reload.classroom_id } do
       patch student_url(@student), params: { student: { classroom_id: classroom.id } }
       assert_redirected_to student_url(@student)

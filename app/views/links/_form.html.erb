@@ -1,0 +1,29 @@
+<%= form_with(model: link.persisted? ? link : [ link.content_module, link ]) do |form| %>
+  <div class="flex flex-col gap-2">
+    <% if link.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(link.errors.count, "error") %> prohibited this link from being saved:</h2>
+        <ul>
+          <% link.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.label :title, class: "label" %>
+    <%= form.text_field :title, class: "input w-full" %>
+
+    <%= form.label :url, "URL", class: "label" %>
+    <%= form.url_field :url, class: "input w-full" %>
+
+    <%= form.label :link_type, "Type", class: "label" %>
+    <%= form.select :link_type, Link.link_types.keys.map { |t| [ t.humanize, t ] },
+          { include_blank: "Select a type" }, class: "select w-full" %>
+
+    <%= form.label :position, class: "label" %>
+    <%= form.number_field :position, class: "input w-full" %>
+
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>
