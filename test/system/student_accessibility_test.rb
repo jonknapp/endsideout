@@ -15,7 +15,7 @@ class StudentAccessibilityTest < ApplicationSystemTestCase
     click_on student.full_name
 
     # Verify we are on the student home page
-    assert_selector "h1", text: "Welcome to EndsideOut"
+    assert_selector "h1", text: "Welcome, #{student.first_name}!"
 
     # Check accessibility of the home page
     assert_accessible
