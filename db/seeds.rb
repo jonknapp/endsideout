@@ -42,7 +42,8 @@ grades.each do |grade|
     classroom = school.classrooms.create!(name: "Classroom #{ i + 1 }", teacher: maybe { Faker::Name.name }, uuid: SecureRandom.urlsafe_base64(32))
     assigned = Faker::Boolean.boolean ? [ programs.sample ] : programs
     assigned.each do |program|
-      classroom.classroom_programs.create!(program: program, level: %w[basic moderate advanced].sample)
+      classroom_program = classroom.classroom_programs.create!(program: program, level: %w[basic moderate advanced].sample)
+      classroom_program.generate_modules!
     end
     classroom
   end
