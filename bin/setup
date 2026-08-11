@@ -12,6 +12,16 @@ FileUtils.chdir APP_ROOT do
   # This script is idempotent, so that you can run it at any time and get an expectable outcome.
   # Add necessary setup steps to this file.
 
+  puts "== Checking system prerequisites =="
+  unless system("vips --version", out: File::NULL, err: File::NULL)
+    puts "\n⚠️  [WARNING] libvips does not appear to be installed on your system."
+    puts "   libvips is required by Active Storage for image processing."
+    puts "   Install it with your package manager:"
+    puts "     macOS: brew install libvips"
+    puts "     Ubuntu/Debian: sudo apt-get install -y libvips"
+    puts "     Fedora: sudo dnf install vips\n\n"
+  end
+
   puts "== Installing dependencies =="
   system("bundle check") || system!("bundle install")
 

@@ -24,18 +24,51 @@ EndsideOut staff build a **curriculum** as a set of **programs**. Each program i
 
 Curriculum is delivered through **schools** and their **classrooms**. A classroom enrolls in a program at a given level, and modules are scheduled to publish on specific dates. **Students** belong to a classroom, and their participation is recorded through **student sessions** — giving the organization the statistics and trends it needs to measure impact.
 
-See [DESIGN.md](DESIGN.md) for the full data model and workflow.
+See [Architecture Decision Records (ADRs)](docs/adrs/README.md) for architectural decisions and guidelines.
 
 ## Getting Started 🛠️
 
-Built on **Ruby on Rails 8** with Hotwire, Tailwind, SQLite, and the Solid stack (Queue/Cache/Cable), deployed with Kamal. See [DESIGN.md](DESIGN.md) for the full tech stack.
+Built on **Ruby on Rails 8** with Hotwire, Tailwind, SQLite, and the Solid stack (Queue/Cache/Cable), deployed with Kamal.
 
-```sh
-git clone https://github.com/rubyforgood/endsideout.git
-cd endsideout
-bundle install
-bin/rails db:prepare   # create, load schema, seed sample data
-bin/dev                # http://localhost:3000
-```
+### Prerequisites
 
-Seed data is generated with [Faker](https://github.com/faker-ruby/faker); see `db/seeds.rb` for login credentials.
+- **[mise](https://mise.jdx.dev/)**: Recommended environment and tool version manager for Ruby (macOS & Linux / WSL2).
+- **libvips**: Native image processing library required by Active Storage.
+  - **macOS**: `brew install libvips`
+  - **Ubuntu/Debian**: `sudo apt-get install -y libvips`
+  - **Fedora**: `sudo dnf install vips`
+  - **Windows**: Use [WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) with Ubuntu/Debian.
+- **SQLite3**: Database engine (pre-installed on macOS).
+
+### Local Setup
+
+1. **Clone the repository**:
+   ```sh
+   git clone https://github.com/rubyforgood/endsideout.git
+   cd endsideout
+   ```
+
+2. **Install Ruby with mise**:
+   ```sh
+   mise install
+   ```
+
+3. **Run setup**:
+   ```sh
+   bin/setup
+   ```
+   This will install gem dependencies, prepare and seed the database, and clear log/temp files.
+
+4. **Start the development server**:
+   ```sh
+   bin/dev
+   ```
+   Visit [http://localhost:3000](http://localhost:3000) in your browser. Seed data is generated with [Faker](https://github.com/faker-ruby/faker); see `db/seeds.rb` for default login credentials.
+
+### Useful Commands
+
+- **Run all CI checks (Recommended before pushing)**: `bin/ci` (runs setup, RuboCop, security audits, and tests)
+- **Run unit & integration tests**: `bin/rails test`
+- **Run system tests**: `bin/rails test:system`
+- **Code style & linting**: `bin/rubocop`
+- **Security audits**: `bin/brakeman`, `bin/bundler-audit`, and `bin/importmap audit`
