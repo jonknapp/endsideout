@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+PORT=${PORT:-3000} SERVER_IP=${SERVER_IP:-localhost} overmind start -N --procfile Procfile.dev "$@"
