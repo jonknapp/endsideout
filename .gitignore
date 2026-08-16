@@ -36,3 +36,10 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+.direnv/
+.mise/
+.cache/
+.local/
+.bundle/
+vendor/bundle/
