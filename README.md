@@ -111,7 +111,7 @@ nix develop
 Both drop you into a shell where `mise`, all native libraries, and build tools are available. From there, run the normal setup:
 
 ```sh
-mise install   # installs Ruby 4.0.0
+mise install   # installs Ruby 4.0.6
 bin/setup      # installs gems, prepares the database
 bin/dev        # starts the server
 ```
@@ -122,15 +122,15 @@ Inside the Nix shell, the `shellHook` redirects all mise data into the project d
 
 | What               | Location                                              |
 | ------------------ | ----------------------------------------------------- |
-| Ruby (and bundler) | `.mise/installs/ruby/4.0.0/`                          |
-| Gems               | `.mise/installs/ruby/4.0.0/lib/ruby/gems/4.0.0/gems/` |
+| Ruby (and bundler) | `.mise/installs/ruby/4.0.6/`                          |
+| Gems               | `.mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/` |
 | mise shims         | `.mise/shims/`                                        |
 | mise cache         | `.cache/mise/`                                        |
 | mise state         | `.local/state/mise/`                                  |
 
 All of these directories are gitignored. The Nix store itself (`/nix/store/...`) holds the system libraries and the `mise` binary — those are read-only and shared across your machine, never modified by this project.
 
-Outside the Nix shell (e.g. with a globally installed mise), Ruby goes to `~/.local/share/mise/installs/ruby/4.0.0/` and gems follow it there.
+Outside the Nix shell (e.g. with a globally installed mise), Ruby goes to `~/.local/share/mise/installs/ruby/4.0.6/` and gems follow it there.
 
 **Updating dependencies**
 
