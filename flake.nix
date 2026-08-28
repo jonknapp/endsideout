@@ -36,6 +36,7 @@
             vips
             rustc
             cargo
+            nodejs_26
           ];
 
           shellHook = ''
