@@ -23,8 +23,8 @@
      latest_date = sorted.map(&:publish_on).max %>
   <% if sorted.any? %>
     <% sorted.each do |classroom_module| %>
-      <details class="collapse collapse-arrow bg-base-100 border border-base-300 mb-2"
-               <%= "open" if classroom_module.publish_on == latest_date %>>
+      <%= tag.details class: "collapse collapse-arrow bg-base-100 border border-base-300 mb-2",
+                      open: classroom_module.publish_on == latest_date do %>
         <summary class="collapse-title font-semibold">
           <%= classroom_module.content_module.name %>
         </summary>
@@ -32,15 +32,16 @@
           <ul class="flex flex-col gap-2 pt-2">
             <% classroom_module.content_module.links.each do |link| %>
               <li>
-                <a href="<%= safe_external_url(link.url) %>" target="_blank" rel="noopener noreferrer"
-                   class="link inline-flex items-center gap-1">
-                  <%= link.title %> ↗
-                </a>
+                <%= tag.a link.title + " ↗",
+                          href: safe_external_url(link.url),
+                          target: "_blank",
+                          rel: "noopener noreferrer",
+                          class: "link inline-flex items-center gap-1" %>
               </li>
             <% end %>
           </ul>
         </div>
-      </details>
+      <% end %>
     <% end %>
   <% else %>
     <p class="text-sm opacity-60">No modules published yet.</p>

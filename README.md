@@ -71,4 +71,6 @@ Built on **Ruby on Rails 8** with Hotwire, Tailwind, SQLite, and the Solid stack
 - **Run unit & integration tests**: `bin/rails test`
 - **Run system tests**: `bin/rails test:system`
 - **Code style & linting**: `bin/rubocop`
+- **ERB/HTML linting**: `npm run lint` (runs `herb-lint` against all ERB templates)
+- **ERB/HTML project analysis**: `bundle exec herb analyze .` (parses all ERB templates and reports compilation errors, missing partials, and render dependency issues across the project)
 - **Security audits**: `bin/brakeman`, `bin/bundler-audit`, and `bin/importmap audit`
