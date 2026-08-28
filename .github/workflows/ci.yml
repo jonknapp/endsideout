@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   scan_ruby:
@@ -20,10 +20,13 @@ jobs:
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
-      
+
       - name: Scan for known security vulnerabilities in gems used
         run: bin/bundler-audit
-      
+
+      - name: Analyze HTML+ERB templates
+        run: bundle exec herb analyze .
+
   scan_js:
     runs-on: ubuntu-latest
 
@@ -34,6 +37,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -41,6 +48,12 @@ jobs:
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
+
+      - name: Lint HTML+ERB templates
+        run: npm run lint
+
+      # - name: Check HTML+ERB formatting
+      #   run: npm run format --check
 
   lint:
     runs-on: ubuntu-latest
