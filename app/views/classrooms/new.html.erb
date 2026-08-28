@@ -1,0 +1,19 @@
+<% content_for :title, "New classroom" %>
+<nav class="breadcrumbs text-sm">
+  <ul>
+    <li><%= link_to "All Schools", schools_path %></li>
+    <li><%= link_to @school.name, school_students_path(@school) %></li>
+    <li><%= link_to "Classrooms", school_classrooms_path(@school) %></li>
+    <li>New Classroom</li>
+  </ul>
+</nav>
+<section class="py-10 flex justify-center">
+  <div class="flex flex-col gap-6 w-full max-w-lg">
+    <div class="card card-border bg-base-100 shadow-md">
+      <div class="card-body">
+        <h1 class="card-title">New Classroom</h1>
+        <%= render "form", classroom: @classroom, url: school_classrooms_path(@school) %>
+      </div>
+    </div>
+  </div>
+</section>

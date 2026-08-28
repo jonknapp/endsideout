@@ -11,7 +11,11 @@
 
 <header class="flex items-center justify-between mb-4">
   <h1 class="text-2xl">Students for <%= @school.name %></h1>
-  <%= link_to "New student", new_school_student_path(@school), class: "btn btn-primary" %>
+  <div class="flex gap-2">
+    <%= link_to "Classrooms", school_classrooms_path(@school), class: "btn btn-ghost" %>
+    <%= link_to "New classroom", new_school_classroom_path(@school), class: "btn btn-primary" %>
+    <%= link_to "New student", new_school_student_path(@school), class: "btn btn-primary" %>
+  </div>
 </header>
 <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
 <table id="students" class="table">

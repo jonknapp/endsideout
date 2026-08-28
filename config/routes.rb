@@ -6,13 +6,13 @@ Rails.application.routes.draw do
   resources :classroom_rosters, only: %i[show], param: :uuid
   scope :admin do
     resources :schools do
-      resources :students, shallow: true
-      resources :classrooms, shallow: true, only: %i[edit update] do
+      resources :students, shallow: true, except: [ :show ]
+      resources :classrooms, shallow: true, except: %i[destroy] do
         member { get :schedule }
       end
     end
-    resources :content_modules do
-      resources :links, shallow: true
+    resources :content_modules, except: [ :show ] do
+      resources :links, shallow: true, except: %i[index show]
     end
     resources :classroom_modules, only: %i[update]
   end

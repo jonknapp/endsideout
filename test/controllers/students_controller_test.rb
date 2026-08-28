@@ -22,12 +22,7 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
       post school_students_url(@school), params: { student: { email: @student.email, first_name: @student.first_name, gender: @student.gender, grade_level: @student.grade_level, last_name: @student.last_name, classroom_id: @student.classroom_id } }
     end
 
-    assert_redirected_to student_url(Student.last)
-  end
-
-  test "should show student" do
-    get student_url(@student)
-    assert_response :success
+    assert_redirected_to school_students_url(@school.id)
   end
 
   test "should get edit" do
@@ -37,14 +32,14 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update student" do
     patch student_url(@student), params: { student: { email: @student.email, first_name: @student.first_name, gender: @student.gender, grade_level: @student.grade_level, last_name: @student.last_name, school_id: @student.school_id } }
-    assert_redirected_to student_url(@student)
+    assert_redirected_to school_students_url(@student.school_id)
   end
 
   test "can update a student's classroom" do
     classroom = @school.classrooms.create!(name: "New Classroom", uuid: SecureRandom.urlsafe_base64(32))
     assert_changes -> { @student.reload.classroom_id } do
       patch student_url(@student), params: { student: { classroom_id: classroom.id } }
-      assert_redirected_to student_url(@student)
+      assert_redirected_to school_students_url(@student.school_id)
     end
   end
 

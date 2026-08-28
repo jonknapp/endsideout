@@ -10,7 +10,7 @@
   <div class="card card-border bg-base-100 shadow-md w-96">
     <div class="card-body">
       <h1 class="card-title">Editing Student</h1>
-      <%= render "form", student: @student, school: @student.school, classrooms: @classrooms %>
+      <%= render "form", student: @student, url: student_path(@student), classrooms: @classrooms %>
     </div>
   </div>
 </section>

@@ -10,7 +10,13 @@ class Classroom < ApplicationRecord
 
   validate :at_least_one_active_program, on: :update
 
+  before_validation :ensure_uuid, on: :create
+
   private
+
+  def ensure_uuid
+    self.uuid ||= SecureRandom.urlsafe_base64(32)
+  end
 
   def at_least_one_active_program
     active = classroom_programs.reject(&:marked_for_destruction?)
