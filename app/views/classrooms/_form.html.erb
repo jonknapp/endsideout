@@ -26,18 +26,19 @@
           <%= cp_form.hidden_field :program_id %>
           <%= cp_form.hidden_field :_destroy, value: enrolled ? "0" : "1", data: { program_enrollment_target: "destroy" } %>
           <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" class="checkbox checkbox-primary"
-                   <%= "checked" if enrolled %>
-                   autocomplete="off"
-                   data-action="change->program-enrollment#toggle">
+            <%= tag.input type: "checkbox", class: "checkbox checkbox-primary",
+                          checked: enrolled,
+                          autocomplete: "off",
+                          data: { action: "change->program-enrollment#toggle" } %>
             <span class="label"><%= cp_form.object.program.name %></span>
           </label>
-          <div data-program-enrollment-target="levelSection" <%= "style='display:none'" unless enrolled %>>
+          <%= tag.div data: { program_enrollment_target: "levelSection" },
+                      style: ("display:none" unless enrolled) do %>
             <%= cp_form.select :level,
                   ClassroomProgram.levels.keys.map { |l| [l.humanize, l] },
                   { include_blank: "Select level", selected: cp_form.object.level },
                   class: "select select-bordered select-sm" %>
-          </div>
+          <% end %>
         </div>
       <% end %>
     </div>
