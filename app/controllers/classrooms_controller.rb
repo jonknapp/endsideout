@@ -1,5 +1,33 @@
 class ClassroomsController < AdminController
+  before_action :set_school, only: %i[index new create]
   before_action :set_classroom, only: %i[edit update schedule]
+
+  def index
+    @classrooms = @school.classrooms
+      .includes(:students, classroom_programs: :program)
+      .order(:name)
+  end
+
+  def new
+    @classroom = @school.classrooms.build
+    build_missing_program_enrollments
+  end
+
+  def create
+    @classroom = @school.classrooms.build(classroom_params)
+
+    respond_to do |format|
+      if @classroom.save
+        @classroom.classroom_programs.reload.each(&:generate_modules!)
+        format.html { redirect_to school_classrooms_url(@school), notice: "Classroom was successfully created.", status: :see_other }
+        format.json { render json: @classroom, status: :created }
+      else
+        build_missing_program_enrollments
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @classroom.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   def edit
     build_missing_program_enrollments
@@ -29,6 +57,10 @@ class ClassroomsController < AdminController
   private
     def set_classroom
       @classroom = Classroom.find(params.expect(:id))
+    end
+
+    def set_school
+      @school = School.find(params.expect(:school_id))
     end
 
     def build_missing_program_enrollments

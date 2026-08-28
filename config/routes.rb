@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   scope :admin do
     resources :schools do
       resources :students, shallow: true
-      resources :classrooms, shallow: true, only: %i[edit update] do
+      resources :classrooms, shallow: true, only: %i[index new create edit update] do
         member { get :schedule }
       end
     end
