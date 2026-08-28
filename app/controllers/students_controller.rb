@@ -1,14 +1,10 @@
 class StudentsController < AdminController
   before_action :set_school, only: %i[ index new create ]
-  before_action :set_student, only: %i[ show edit update destroy ]
+  before_action :set_student, only: %i[ edit update destroy ]
 
   # GET /students or /students.json
   def index
     @students = @school.students.includes(:classroom).all
-  end
-
-  # GET /students/1 or /students/1.json
-  def show
   end
 
   # GET /students/new
@@ -27,11 +23,9 @@ class StudentsController < AdminController
 
     respond_to do |format|
       if @student.save
-        format.html { redirect_to @student, notice: "Student was successfully created." }
-        format.json { render :show, status: :created, location: @student }
+        format.html { redirect_to school_students_url(@student.school_id), notice: "Student was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @student.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -40,11 +34,9 @@ class StudentsController < AdminController
   def update
     respond_to do |format|
       if @student.update(student_params)
-        format.html { redirect_to @student, notice: "Student was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @student }
+        format.html { redirect_to school_students_url(@student.school_id), notice: "Student was successfully updated.", status: :see_other }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @student.errors, status: :unprocessable_entity }
       end
     end
   end
