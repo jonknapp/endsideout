@@ -3,7 +3,7 @@
 one:
   name: Classroom 1
   school: one
-  teacher: Teacher 1
+  teacher: one
   uuid: abcd-1234-efgh-5678
 
 two:

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :classrooms, shallow: true, except: %i[destroy] do
         member { get :schedule }
       end
+      resources :teachers, shallow: true
     end
     resources :content_modules, except: [ :show ] do
       resources :links, shallow: true, except: %i[index show]

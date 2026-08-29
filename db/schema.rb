@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_17_183252) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_29_144558) do
   create_table "classroom_modules", force: :cascade do |t|
     t.integer "classroom_program_id", null: false
     t.integer "content_module_id", null: false
@@ -37,10 +37,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_17_183252) do
     t.datetime "created_at", null: false
     t.string "name"
     t.integer "school_id", null: false
-    t.string "teacher"
+    t.integer "teacher_id"
     t.datetime "updated_at", null: false
     t.string "uuid", null: false
     t.index ["school_id"], name: "index_classrooms_on_school_id"
+    t.index ["teacher_id"], name: "index_classrooms_on_teacher_id"
     t.index ["uuid"], name: "index_classrooms_on_uuid", unique: true
   end
 
@@ -107,6 +108,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_17_183252) do
     t.index ["school_id"], name: "index_students_on_school_id"
   end
 
+  create_table "teachers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "name"
+    t.integer "school_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["school_id"], name: "index_teachers_on_school_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email_address", null: false
@@ -121,10 +131,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_17_183252) do
   add_foreign_key "classroom_programs", "classrooms"
   add_foreign_key "classroom_programs", "programs"
   add_foreign_key "classrooms", "schools"
+  add_foreign_key "classrooms", "teachers"
   add_foreign_key "content_modules", "programs"
   add_foreign_key "links", "content_modules"
   add_foreign_key "sessions", "users"
   add_foreign_key "student_sessions", "students"
   add_foreign_key "students", "classrooms"
   add_foreign_key "students", "schools"
+  add_foreign_key "teachers", "schools"
 end

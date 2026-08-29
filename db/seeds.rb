@@ -26,6 +26,13 @@ def maybe(&block)
   block.call
 end
 
+teachers = 3.times.map do
+  school.teachers.create!(
+    name: Faker::Name.name,
+    email: maybe { Faker::Internet.email(domain: "example.com") }
+  )
+end
+
 def build_student_attrs(overrides = {})
   {
     first_name: Faker::Name.first_name,
@@ -39,7 +46,11 @@ end
 grades = (1..12).to_a.sample(3)
 grades.each do |grade|
   classrooms = 2.times.map do |i|
-    classroom = school.classrooms.create!(name: "Classroom #{ i + 1 }", teacher: maybe { Faker::Name.name }, uuid: SecureRandom.urlsafe_base64(32))
+    classroom = school.classrooms.create!(
+      name: "Classroom #{i + 1}",
+      teacher: maybe { teachers.sample },
+      uuid: SecureRandom.urlsafe_base64(32)
+    )
     assigned = Faker::Boolean.boolean ? [ programs.sample ] : programs
     assigned.each do |program|
       classroom_program = classroom.classroom_programs.create!(program: program, level: %w[basic moderate advanced].sample)

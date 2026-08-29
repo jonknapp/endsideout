@@ -1,0 +1,44 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, [ @school.name, "Teachers" ].join(" - ") %>
+
+<nav class="breadcrumbs text-sm">
+  <ul>
+    <li><%= link_to "All Schools", schools_path %></li>
+    <li><%= @school.name %></li>
+  </ul>
+</nav>
+
+<header class="flex items-center justify-between mb-4">
+  <h1 class="text-2xl">Teachers for <%= @school.name %></h1>
+  <%= link_to "New teacher", new_school_teacher_path(@school), class: "btn btn-primary" %>
+</header>
+
+<div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Classrooms</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @teachers.each do |teacher| %>
+        <tr>
+          <td><%= teacher.name %></td>
+          <td><%= teacher.email %></td>
+          <td><%= teacher.classrooms.map(&:name).join(", ") %></td>
+          <td>
+            <div class="flex gap-2">
+              <%= link_to "Show", teacher_path(teacher), class: "btn btn-secondary" %>
+              <%= link_to "Edit", edit_teacher_path(teacher), class: "btn btn-primary" %>
+              <%= button_to "Delete", teacher_path(teacher), method: :delete, data: { "turbo-confirm": "Are you sure?" }, class: "btn btn-error" %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
