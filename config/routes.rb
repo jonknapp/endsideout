@@ -1,4 +1,11 @@
+require "uri"
+
 Rails.application.routes.draw do
+  direct :external_game do |slug|
+    URI::HTTPS.build(host: "endsideoutgames.netlify.app", path: "/games/#{slug}").to_s
+  end
+
+  resources :games
   resource :session
   resources :passwords, param: :token
   resource :student_session, only: %i[new create destroy]

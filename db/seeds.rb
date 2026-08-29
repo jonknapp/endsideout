@@ -8,7 +8,6 @@ ContentModule.levels.keys.each_with_index do |level, li|
     2.times do |i|
       mod = program.content_modules.create!(name: "#{program.name} #{level.humanize} Module #{i + 1}", level: level, position: i + 1)
       mod.links.create!(title: "Survey #{i + 1}", url: "https://example.com/survey/#{program.id}-#{level}-#{i}", link_type: "survey", position: 1)
-      mod.links.create!(title: "Game #{i + 1}", url: "https://example.com/game/#{program.id}-#{level}-#{i}", link_type: "game", position: 2)
     end
   end
 end

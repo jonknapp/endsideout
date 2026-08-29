@@ -55,6 +55,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_144558) do
     t.index ["program_id"], name: "index_content_modules_on_program_id"
   end
 
+  create_table "games", force: :cascade do |t|
+    t.integer "content_module_id"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["content_module_id"], name: "index_games_on_content_module_id"
+    t.index ["slug"], name: "index_games_on_slug", unique: true
+  end
+
   create_table "links", force: :cascade do |t|
     t.integer "content_module_id", null: false
     t.datetime "created_at", null: false
@@ -133,6 +144,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_144558) do
   add_foreign_key "classrooms", "schools"
   add_foreign_key "classrooms", "teachers"
   add_foreign_key "content_modules", "programs"
+  add_foreign_key "games", "content_modules"
   add_foreign_key "links", "content_modules"
   add_foreign_key "sessions", "users"
   add_foreign_key "student_sessions", "students"
