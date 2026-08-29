@@ -9,7 +9,7 @@
 </header>
 
 <div role="tablist" class="tabs tabs-border mb-6">
-  <% @programs.each do |program| %>
+  <% @programs.each do |program| # herb:debug disable %>
     <%= link_to content_modules_path(program_id: program.id),
           role: "tab",
           aria: { selected: program == @active_program },

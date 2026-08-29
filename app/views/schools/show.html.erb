@@ -11,7 +11,7 @@
 </header>
 
 <div role="tablist" class="tabs tabs-border mb-6">
-  <% school_show_tabs.each do |tab| %>
+  <% school_show_tabs.each do |tab| # herb:debug disable %>
     <%= link_to tab.titleize,
           school_path(@school, tab: tab),
           role: "tab",

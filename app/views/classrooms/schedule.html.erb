@@ -15,7 +15,7 @@
 
 <% if @classroom_programs.any? %>
   <div role="tablist" class="tabs tabs-border mb-6">
-    <% @classroom_programs.each do |enrollment| %>
+    <% @classroom_programs.each do |enrollment| # herb:debug disable %>
       <%= link_to schedule_classroom_path(@classroom, classroom_program_id: enrollment.id),
             role: "tab",
             aria: { selected: enrollment == @active_enrollment },
