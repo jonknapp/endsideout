@@ -39,6 +39,10 @@
 
 node_modules/
 
+# editor settings and extension recommendations
+/.vscode/*
+!/.vscode/extensions.json
+
 .direnv/
 .mise/
 .cache/

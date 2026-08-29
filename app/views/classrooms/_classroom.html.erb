@@ -9,6 +9,6 @@
   </div>
   <div>
     <strong class="block font-medium mb-1">Teacher:</strong>
-    <%= classroom.teacher %>
+    <%= classroom.teacher&.name || "None assigned" %>
   </div>
 </div>

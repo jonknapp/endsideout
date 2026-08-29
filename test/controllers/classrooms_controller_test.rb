@@ -12,9 +12,18 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update classroom name and teacher" do
-    patch classroom_url(@classroom), params: { classroom: { name: "Updated Name", teacher: "New Teacher" } }
+    teacher = Teacher.create!(name: "Teacher 3", school: @classroom.school)
+
+    patch classroom_url(@classroom), params: {
+      classroom: {
+        name: "Updated Name",
+        teacher_id: teacher.id
+      }
+    }
+
     assert_redirected_to school_students_url(@classroom.school)
     assert_equal "Updated Name", @classroom.reload.name
+    assert_equal teacher, @classroom.teacher
   end
 
   test "should add a program enrollment" do
@@ -142,6 +151,7 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
     get schedule_classroom_url(@classroom, classroom_program_id: enrollment.id)
     assert_select "a[role='tab'][aria-selected='true'][href*='classroom_program_id=#{enrollment.id}']"
   end
+
   test "should get new" do
     get new_school_classroom_url(schools(:one))
     assert_response :success
@@ -150,12 +160,13 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
   test "should create classroom" do
     school = schools(:one)
     program = programs(:kyh)
+    teacher = Teacher.create!(name: "Teacher 3", school: school)
 
     assert_difference "Classroom.count" do
       post school_classrooms_url(school), params: {
         classroom: {
           name: "Classroom 3",
-          teacher: "Teacher 3",
+          teacher_id: teacher.id,
           classroom_programs_attributes: [ { program_id: program.id, level: "basic" } ]
         }
       }
@@ -164,6 +175,7 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
     classroom = school.classrooms.order(:id).last
     assert_redirected_to school_classrooms_url(school)
     assert_equal "Classroom 3", classroom.name
+    assert_equal teacher, classroom.teacher
     assert classroom.classroom_programs.exists?(program: program, level: "basic")
   end
 
@@ -205,5 +217,28 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
     get school_classrooms_url(schools(:one))
     assert_select "#classrooms", text: /#{classrooms(:one).name}/
     assert_select "#classrooms", text: /#{classrooms(:two).name}/, count: 0
+  end
+
+  test "edit shows teachers for the classroom's school" do
+    teacher = teachers(:one)
+
+    get edit_classroom_url(@classroom)
+
+    assert_response :success
+    assert_match teacher.name, response.body
+  end
+
+  test "should clear classroom teacher" do
+    assert_not_nil @classroom.teacher
+
+    patch classroom_url(@classroom), params: {
+      classroom: {
+        name: @classroom.name,
+        teacher_id: ""
+      }
+    }
+
+    assert_redirected_to school_students_url(@classroom.school)
+    assert_nil @classroom.reload.teacher
   end
 end

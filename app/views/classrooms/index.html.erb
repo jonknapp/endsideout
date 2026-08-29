@@ -33,7 +33,7 @@
       <% @classrooms.each do |classroom| %>
         <tr>
           <td><%= classroom.name %></td>
-          <td><%= classroom.teacher %></td>
+          <td><%= classroom.teacher&.name || "None assigned" %></td>
           <td>
             <% classroom.classroom_programs.each do |enrollment| %>
               <span class="badge badge-ghost"><%= enrollment.program.name %> &middot; <%= enrollment.level.humanize %></span>
