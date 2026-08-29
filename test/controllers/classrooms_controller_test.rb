@@ -21,7 +21,7 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_redirected_to school_students_url(@classroom.school)
+    assert_redirected_to school_path(@classroom.school, tab: "classrooms")
     assert_equal "Updated Name", @classroom.reload.name
     assert_equal teacher, @classroom.teacher
   end
@@ -38,7 +38,7 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to school_students_url(@classroom.school)
+    assert_redirected_to school_path(@classroom.school, tab: "classrooms")
     assert @classroom.classroom_programs.exists?(program: program, level: "moderate")
   end
 
@@ -53,7 +53,7 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_redirected_to school_students_url(@classroom.school)
+    assert_redirected_to school_path(@classroom.school, tab: "classrooms")
     assert_equal "advanced", enrollment.reload.level
   end
 
@@ -70,7 +70,7 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to school_students_url(@classroom.school)
+    assert_redirected_to school_path(@classroom.school, tab: "classrooms")
   end
 
   test "is invalid when removing all programs" do
@@ -173,7 +173,7 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
     end
 
     classroom = school.classrooms.order(:id).last
-    assert_redirected_to school_classrooms_url(school)
+    assert_redirected_to school_path(school, tab: "classrooms")
     assert_equal "Classroom 3", classroom.name
     assert_equal teacher, classroom.teacher
     assert classroom.classroom_programs.exists?(program: program, level: "basic")
@@ -213,6 +213,13 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
     assert_select "#classrooms tbody tr", school.classrooms.count
   end
 
+  test "index renders inside the classrooms turbo frame" do
+    school = schools(:one)
+    get school_classrooms_url(school)
+
+    assert_select "turbo-frame##{ActionView::RecordIdentifier.dom_id(school, :classrooms)}"
+  end
+
   test "index only lists classrooms for that school" do
     get school_classrooms_url(schools(:one))
     assert_select "#classrooms", text: /#{classrooms(:one).name}/
@@ -238,7 +245,7 @@ class ClassroomsControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_redirected_to school_students_url(@classroom.school)
+    assert_redirected_to school_path(@classroom.school, tab: "classrooms")
     assert_nil @classroom.reload.teacher
   end
 end

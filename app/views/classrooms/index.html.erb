@@ -1,53 +1,42 @@
-<p style="color: green"><%= notice %></p>
+<%= turbo_frame_tag dom_id(@school, :classrooms) do %>
+  <p style="color: green"><%= notice %></p>
 
-<% content_for :title, [ @school.name, "Classrooms" ].join(" - ") %>
+  <header class="flex items-center justify-between mb-4">
+    <h2 class="text-xl">Classrooms</h2>
+    <%= link_to "New classroom", new_school_classroom_path(@school), data: { turbo_frame: "_top" }, class: "btn btn-primary" %>
+  </header>
 
-<nav class="breadcrumbs text-sm">
-  <ul>
-    <li><%= link_to "All Schools", schools_path %></li>
-    <li><%= link_to @school.name, school_students_path(@school) %></li>
-    <li>Classrooms</li>
-  </ul>
-</nav>
-
-<header class="flex items-center justify-between mb-4">
-  <h1 class="text-2xl">Classrooms for <%= @school.name %></h1>
-  <div class="flex gap-2">
-    <%= link_to "Students", school_students_path(@school), class: "btn btn-ghost" %>
-    <%= link_to "New classroom", new_school_classroom_path(@school), class: "btn btn-primary" %>
-  </div>
-</header>
-
-<div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
-  <table id="classrooms" class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Teacher</th>
-        <th>Programs</th>
-        <th>Students</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @classrooms.each do |classroom| %>
+  <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+    <table id="classrooms" class="table">
+      <thead>
         <tr>
-          <td><%= classroom.name %></td>
-          <td><%= classroom.teacher&.name || "None assigned" %></td>
-          <td>
-            <% classroom.classroom_programs.each do |enrollment| %>
-              <span class="badge badge-ghost"><%= enrollment.program.name %> &middot; <%= enrollment.level.humanize %></span>
-            <% end %>
-          </td>
-          <td><%= classroom.students.size %></td>
-          <td>
-            <div class="flex gap-2">
-              <%= link_to "Edit", edit_classroom_path(classroom), class: "btn btn-primary" %>
-              <%= link_to "Schedule", schedule_classroom_path(classroom), class: "btn btn-ghost" %>
-            </div>
-          </td>
+          <th>Name</th>
+          <th>Teacher</th>
+          <th>Programs</th>
+          <th>Students</th>
+          <th>Actions</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        <% @classrooms.each do |classroom| %>
+          <tr>
+            <td><%= classroom.name %></td>
+            <td><%= classroom.teacher&.name || "None assigned" %></td>
+            <td>
+              <% classroom.classroom_programs.each do |enrollment| %>
+                <span class="badge badge-ghost"><%= enrollment.program.name %> &middot; <%= enrollment.level.humanize %></span>
+              <% end %>
+            </td>
+            <td><%= classroom.students.size %></td>
+            <td>
+              <div class="flex gap-2">
+                <%= link_to "Edit", edit_classroom_path(classroom), data: { turbo_frame: "_top" }, class: "btn btn-primary" %>
+                <%= link_to "Schedule", schedule_classroom_path(classroom), data: { turbo_frame: "_top" }, class: "btn btn-ghost" %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
