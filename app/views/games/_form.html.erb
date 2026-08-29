@@ -1,0 +1,23 @@
+<%= form_with(model: game) do |form| %>
+  <%= form.hidden_field :content_module_id if game.content_module_id.present? %>
+  <div class="flex flex-col gap-2">
+    <% if game.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved:</h2>
+        <ul>
+          <% game.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.label :title, class: "label" %>
+    <%= form.text_field :title, class: "input w-full" %>
+
+    <%= form.label :slug, "Slug", class: "label" %>
+    <%= form.text_field :slug, class: "input w-full" %>
+
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

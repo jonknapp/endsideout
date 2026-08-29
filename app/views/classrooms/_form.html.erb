@@ -15,8 +15,8 @@
     <%= form.label :name, class: "label" %>
     <%= form.text_field :name, class: "input w-full" %>
 
-    <%= form.label :teacher, class: "label" %>
-    <%= form.text_field :teacher, class: "input w-full" %>
+    <%= form.label :teacher_id, "Teacher", class: "label" %>
+  <%= form.collection_select :teacher_id, teachers, :id, :name, { include_blank: "Select a teacher" }, class: "select w-full" %>
 
     <div class="flex flex-col gap-1">
       <span class="label">Programs</span>

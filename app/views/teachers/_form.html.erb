@@ -1,0 +1,29 @@
+<%= form_with(
+  model: teacher,
+  url: teacher.persisted? ? teacher_path(teacher) : school_teachers_path(school)
+) do |form| %>
+  <div class="flex flex-col gap-2">
+    <% if teacher.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(teacher.errors.count, "error") %> prohibited this teacher from being saved:</h2>
+
+        <ul>
+          <% teacher.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.label :name, class: "label" %>
+    <%= form.text_field :name, class: "input w-full" %>
+
+    <%= form.label :email, class: "label" %>
+    <%= form.email_field :email, class: "input w-full" %>
+
+    <%= form.label :classroom_ids, "Classrooms", class: "label" %>
+    <%= form.collection_select :classroom_ids, classrooms, :id, :name, {}, { multiple: true, class: "select w-full" } %>
+
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

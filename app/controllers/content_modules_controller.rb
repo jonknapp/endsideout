@@ -5,7 +5,7 @@ class ContentModulesController < AdminController
     @programs = Program.order(:name)
     @active_program = @programs.find { |p| p.id.to_s == params[:program_id] } || @programs.first
     @modules_by_level = @active_program
-      .content_modules
+      .content_modules.ordered
       .includes(:links)
       .group_by(&:level)
   end
