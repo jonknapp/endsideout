@@ -45,6 +45,17 @@ class ContentModulesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "edit lists links ordered by position" do
+    @content_module.links.destroy_all
+    @content_module.links.create!(title: "Last Link", url: "https://example.com/2", link_type: "survey", position: 2)
+    @content_module.links.create!(title: "First Link", url: "https://example.com/1", link_type: "survey", position: 1)
+
+    get edit_content_module_url(@content_module)
+
+    hrefs = css_select("table tbody tr td:first-child a").map { |link| link["href"] }
+    assert_equal [ "https://example.com/1", "https://example.com/2" ], hrefs
+  end
+
   test "should update content module" do
     patch content_module_url(@content_module), params: {
       content_module: { name: "Updated Name" }
