@@ -37,6 +37,8 @@
             rustc
             cargo
             nodejs_26
+            chromium
+            chromedriver
           ];
 
           shellHook = ''
