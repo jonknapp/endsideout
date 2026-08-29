@@ -3,7 +3,6 @@
   <ul>
     <li><%= link_to "All Schools", schools_path %></li>
     <li><%= link_to @school.name, school_path(@school, tab: "classrooms") %></li>
-    <li><%= link_to "Classrooms", school_classrooms_path(@school) %></li>
     <li>New Classroom</li>
   </ul>
 </nav>
