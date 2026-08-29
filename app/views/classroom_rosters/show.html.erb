@@ -4,7 +4,7 @@
 <ul class="list bg-base-100 rounded-box shadow-md">
   <% @classroom.students.sort_by(&:full_name).each do |student| %>
     <li class="list-row text-2xl">
-      <%= turbo_stream_from dom_id(student), connected: false %>
+      <%= turbo_stream_from dom_id(student) %>
 
       <div class="flex items-start justify-between gap-4">
         <%= form_with(url: student_session_path) do |form| %>
