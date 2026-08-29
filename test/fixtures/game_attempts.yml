@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  score: 1
+  outcome: completed
+  started_at: 2026-08-29 11:53:38
+  finished_at: 2026-08-29 11:53:38
+  student: ada
+  game: one
+  token: onetoken
+
+two:
+  score: 1
+  outcome: expired
+  started_at: 2026-08-29 11:53:38
+  finished_at: 2026-08-29 11:53:38
+  student: grace
+  game: two
+  token: twotoken

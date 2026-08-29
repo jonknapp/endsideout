@@ -12,7 +12,7 @@
     <div class="card card-border bg-base-100 shadow-md">
       <div class="card-body">
         <h1 class="card-title">Editing Classroom</h1>
-        <%= render "form", classroom: @classroom, url: classroom_path(@classroom) %>
+        <%= render "form", classroom: @classroom, url: classroom_path(@classroom), teachers: @teachers %>
       </div>
     </div>
 
