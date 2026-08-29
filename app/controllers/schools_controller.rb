@@ -1,5 +1,6 @@
 class SchoolsController < AdminController
   before_action :set_school, only: %i[ show edit update destroy ]
+  helper_method :school_show_tabs
 
   # GET /schools or /schools.json
   def index
@@ -8,6 +9,7 @@ class SchoolsController < AdminController
 
   # GET /schools/1 or /schools/1.json
   def show
+    @active_tab = school_show_tabs.include?(params[:tab]) ? params[:tab] : school_show_tabs.first
   end
 
   # GET /schools/new
@@ -58,6 +60,10 @@ class SchoolsController < AdminController
   end
 
   private
+
+  def school_show_tabs
+    %w[ students classrooms teachers ]
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_school

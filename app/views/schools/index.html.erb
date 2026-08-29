@@ -9,7 +9,7 @@
   <ul id="schools" class="list bg-base-100 rounded-box shadow-md">
     <% @schools.each do |school| %>
       <li class="list-row">
-        <%= link_to school.name, school_students_path(school), class: "link" %>
+        <%= link_to school.name, school_path(school), class: "link" %>
       </li>
     <% end %>
   </ul>

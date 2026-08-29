@@ -1,11 +1,33 @@
 <p style="color: green"><%= notice %></p>
 
 <% content_for :title, @school.name %>
-<h1><%= @school.name %></h1>
 
-<div>
-  <%= link_to "Edit this school", edit_school_path(@school) %> |
-  <%= link_to "Back to schools", schools_path %>
+<header class="flex items-center justify-between mb-4">
+  <h1 class="text-2xl"><%= @school.name %></h1>
+  <div class="flex gap-2">
+    <%= link_to "Edit this school", edit_school_path(@school), class: "btn btn-primary" %>
+    <%= button_to "Destroy this school", @school, method: :delete, class: "btn btn-error" %>
+  </div>
+</header>
 
-  <%= button_to "Destroy this school", @school, method: :delete %>
+<div role="tablist" class="tabs tabs-border mb-6">
+  <% school_show_tabs.each do |tab| %>
+    <%= link_to tab.titleize,
+          school_path(@school, tab: tab),
+          role: "tab",
+          aria: { selected: tab == @active_tab },
+          class: "tab #{"tab-active" if tab == @active_tab}" %>
+  <% end %>
+</div>
+
+<div class="<%= "hidden" unless @active_tab == "students" %>">
+  <%= turbo_frame_tag dom_id(@school, :students), src: school_students_path(@school), loading: :lazy %>
+</div>
+
+<div class="<%= "hidden" unless @active_tab == "classrooms" %>">
+  <%= turbo_frame_tag dom_id(@school, :classrooms), src: school_classrooms_path(@school), loading: :lazy %>
+</div>
+
+<div class="<%= "hidden" unless @active_tab == "teachers" %>">
+  <%= turbo_frame_tag dom_id(@school, :teachers), src: school_teachers_path(@school), loading: :lazy %>
 </div>
