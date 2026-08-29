@@ -1,12 +1,9 @@
 class TeachersController < AdminController
   before_action :set_school, only: %i[index new create]
-  before_action :set_teacher, only: %i[show edit update destroy]
+  before_action :set_teacher, only: %i[edit update destroy]
 
   def index
     @teachers = @school.teachers
-  end
-
-  def show
   end
 
   def new
@@ -24,8 +21,8 @@ class TeachersController < AdminController
     @classrooms = @school.classrooms
     respond_to do |format|
       if @teacher.save
-        format.html { redirect_to @teacher, notice: "Teacher was successfully created." }
-        format.json { render :show, status: :created, location: @teacher }
+        format.html { redirect_to school_url(@school, tab: "teachers"), notice: "Teacher was successfully created." }
+        format.json { render json: @teacher, status: :created, location: @teacher }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @teacher.errors, status: :unprocessable_entity }
@@ -39,8 +36,8 @@ class TeachersController < AdminController
 
     respond_to do |format|
       if @teacher.update(teacher_params)
-        format.html { redirect_to @teacher, notice: "Teacher was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @teacher }
+        format.html { redirect_to school_url(@school, tab: "teachers"), notice: "Teacher was successfully updated.", status: :see_other }
+        format.json { render json: @teacher, status: :ok, location: @teacher }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @teacher.errors, status: :unprocessable_entity }
@@ -52,7 +49,7 @@ class TeachersController < AdminController
     @teacher.destroy!
 
     respond_to do |format|
-      format.html { redirect_to school_teachers_url(@teacher.school), notice: "Teacher was successfully destroyed.", status: :see_other }
+      format.html { redirect_to school_url(@teacher.school, tab: "teachers"), notice: "Teacher was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
   end

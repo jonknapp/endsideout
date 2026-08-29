@@ -11,6 +11,12 @@ class TeachersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "index renders inside the teachers turbo frame" do
+    get school_teachers_url(@school)
+
+    assert_select "turbo-frame##{ActionView::RecordIdentifier.dom_id(@school, :teachers)}"
+  end
+
   test "should get new" do
     get new_school_teacher_url(@school)
     assert_response :success
@@ -25,14 +31,7 @@ class TeachersControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to teacher_url(Teacher.last)
-  end
-
-  test "should show teacher" do
-    teacher = teachers(:one)
-
-    get teacher_url(teacher)
-    assert_response :success
+    assert_redirected_to school_path(@school, tab: "teachers")
   end
 
   test "should get edit" do
@@ -52,7 +51,7 @@ class TeachersControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_redirected_to teacher_url(teacher)
+    assert_redirected_to school_path(teacher.school, tab: "teachers")
     assert_equal "Updated Teacher", teacher.reload.name
   end
 
@@ -63,7 +62,7 @@ class TeachersControllerTest < ActionDispatch::IntegrationTest
       delete teacher_url(teacher)
     end
 
-    assert_redirected_to school_teachers_url(teacher.school)
+    assert_redirected_to school_path(teacher.school, tab: "teachers")
   end
 
   test "should not create teacher without a name" do
@@ -106,7 +105,7 @@ class TeachersControllerTest < ActionDispatch::IntegrationTest
 
     teacher = Teacher.last
 
-    assert_redirected_to teacher_url(teacher)
+    assert_redirected_to school_path(teacher.school, tab: "teachers")
     assert_equal [ classroom.id ], teacher.classrooms.reload.pluck(:id)
   end
 
@@ -122,7 +121,7 @@ class TeachersControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_redirected_to teacher_url(teacher)
+    assert_redirected_to school_path(teacher.school, tab: "teachers")
     assert_equal [ classroom.id ], teacher.classrooms.reload.pluck(:id)
   end
 
@@ -140,7 +139,7 @@ class TeachersControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_redirected_to teacher_url(teacher)
+    assert_redirected_to school_path(teacher.school, tab: "teachers")
     assert_empty teacher.classrooms.reload
     assert_nil classroom.reload.teacher
   end
@@ -160,7 +159,7 @@ class TeachersControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_redirected_to teacher_url(new_teacher)
+    assert_redirected_to school_path(new_teacher.school, tab: "teachers")
     assert_equal new_teacher, classroom.reload.teacher
     assert_empty original_teacher.classrooms.reload
     assert_equal [ classroom.id ], new_teacher.classrooms.reload.pluck(:id)
@@ -198,17 +197,6 @@ class TeachersControllerTest < ActionDispatch::IntegrationTest
     classroom = classrooms(:one)
 
     get school_teachers_url(@school)
-
-    assert_response :success
-    assert_match teacher.name, response.body
-    assert_match classroom.name, response.body
-  end
-
-  test "show displays teacher details and classrooms" do
-    teacher = teachers(:one)
-    classroom = classrooms(:one)
-
-    get teacher_url(teacher)
 
     assert_response :success
     assert_match teacher.name, response.body
