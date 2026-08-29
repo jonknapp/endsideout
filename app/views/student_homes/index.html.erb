@@ -1,4 +1,5 @@
 <% content_for :title, "Home" %>
+<%= turbo_stream_from dom_id(@student) %>
 
 <section class="py-10">
   <header class="flex justify-between items-center mb-6">
@@ -33,7 +34,7 @@
             <% classroom_module.content_module.links.each do |link| %>
               <li>
                 <%= tag.a link.title + " ↗",
-                          href: safe_external_url(link.url),
+                          href: students_link_path(link),
                           target: "_blank",
                           rel: "noopener noreferrer",
                           class: "link inline-flex items-center gap-1" %>
@@ -46,4 +47,10 @@
   <% else %>
     <p class="text-sm opacity-60">No modules published yet.</p>
   <% end %>
+</section>
+
+<section class="py-6">
+  <h2 class="text-lg font-semibold mb-3">Recent Activity</h2>
+  <ul id="<%= dom_id(@student, :activity) %>" class="flex flex-col gap-1">
+  </ul>
 </section>

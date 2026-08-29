@@ -1,0 +1,4 @@
+<span id="<%= dom_id(student, :last_activity) %>" class="text-sm font-normal opacity-70">
+  <span class="badge badge-outline badge-sm capitalize"><%= link.link_type %></span>
+  <%= link.title %> &middot; <%= occurred_at.strftime("%-I:%M %p") %>
+</span>

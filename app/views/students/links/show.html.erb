@@ -1,0 +1,17 @@
+<% content_for :title, @link.title %>
+
+<section class="py-6">
+  <header class="flex items-center gap-4 mb-4">
+    <%= link_to "← Back", student_homes_path, class: "btn btn-sm btn-ghost" %>
+    <h1 class="text-xl font-semibold"><%= @link.title %></h1>
+    <span class="badge badge-outline capitalize"><%= @link.link_type %></span>
+  </header>
+
+  <div class="w-full" style="height: calc(100vh - 8rem);">
+    <%= tag.iframe src: @link.url,
+                   title: @link.title,
+                   class: "w-full h-full rounded-lg border border-base-300",
+                   allowfullscreen: true,
+                   loading: "lazy" %>
+  </div>
+</section>

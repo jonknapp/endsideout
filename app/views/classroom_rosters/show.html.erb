@@ -3,14 +3,20 @@
 </header>
 <ul class="list bg-base-100 rounded-box shadow-md">
   <% @classroom.students.sort_by(&:full_name).each do |student| %>
-    <li class="list-row link link-hover text-2xl">
-      <%= form_with(url: student_session_path) do |form| %>
-        <%= form.hidden_field :student_id, value: student.id %>
-        <%= form.hidden_field :classroom_uuid, value: @classroom.uuid %>
-        <%= form.button type: :submit, class: "w-full cursor-pointer" do %>
-          <%= student.full_name %>
+    <li class="list-row text-2xl">
+      <%= turbo_stream_from dom_id(student) %>
+
+      <div class="flex items-start justify-between gap-4">
+        <%= form_with(url: student_session_path) do |form| %>
+          <%= form.hidden_field :student_id, value: student.id %>
+          <%= form.hidden_field :classroom_uuid, value: @classroom.uuid %>
+          <%= form.button type: :submit, class: "link link-hover cursor-pointer" do %>
+            <%= student.full_name %>
+          <% end %>
         <% end %>
-      <% end %>
+
+        <span id="<%= dom_id(student, :last_activity) %>" class="text-sm font-normal opacity-70"></span>
+      </div>
     </li>
   <% end %>
 </ul>

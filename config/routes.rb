@@ -16,6 +16,11 @@ Rails.application.routes.draw do
     end
     resources :classroom_modules, only: %i[update]
   end
+
+  namespace :students do
+    resources :links, only: %i[show]
+  end
+
   root to: "schools#index"
 
   get "up" => "rails/health#show", as: :rails_health_check
