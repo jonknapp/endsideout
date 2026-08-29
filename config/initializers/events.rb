@@ -29,14 +29,6 @@ class StudentActivitySubscriber
     stream = dom_id(student)
     Rails.logger.debug("[StudentActivitySubscriber] stream=#{stream}")
 
-    Rails.logger.debug("[StudentActivitySubscriber] broadcasting prepend to #{stream}##{dom_id(student, :activity)}")
-    Turbo::StreamsChannel.broadcast_prepend_to(
-      stream,
-      target: dom_id(student, :activity),
-      html: activity_item_html(link)
-    )
-    Rails.logger.debug("[StudentActivitySubscriber] prepend broadcast complete")
-
     Rails.logger.debug("[StudentActivitySubscriber] broadcasting replace to #{stream}##{dom_id(student, :last_activity)}")
     Turbo::StreamsChannel.broadcast_replace_to(
       stream,
