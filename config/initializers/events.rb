@@ -33,32 +33,19 @@ class StudentActivitySubscriber
     Turbo::StreamsChannel.broadcast_replace_to(
       stream,
       target: dom_id(student, :last_activity),
-      html: last_activity_html(student, link, occurred_at)
+      html: ApplicationController.render(
+        partial: "classroom_rosters/last_activity",
+        locals: {
+          link:,
+          occurred_at:,
+          student:
+        }
+      )
     )
     Rails.logger.debug("[StudentActivitySubscriber] replace broadcast complete")
   rescue => e
     Rails.logger.error("[StudentActivitySubscriber] ERROR: #{e.class}: #{e.message}")
     Rails.logger.error(e.backtrace.first(5).join("\n"))
-  end
-
-  private
-
-  def activity_item_html(link)
-    <<~HTML
-      <li id="link_#{link.id}_activity" class="flex items-center gap-2 text-sm py-1">
-        <span class="badge badge-outline badge-sm capitalize">#{link.link_type}</span>
-        <span class="opacity-70">#{ERB::Util.html_escape(link.title)}</span>
-      </li>
-    HTML
-  end
-
-  def last_activity_html(student, link, occurred_at)
-    <<~HTML
-      <span id="#{dom_id(student, :last_activity)}" class="text-sm font-normal opacity-70">
-        <span class="badge badge-outline badge-sm capitalize">#{link.link_type}</span>
-        #{ERB::Util.html_escape(link.title)} &middot; #{occurred_at.strftime("%-I:%M %p")}
-      </span>
-    HTML
   end
 end
 
